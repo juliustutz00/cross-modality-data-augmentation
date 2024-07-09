@@ -1,0 +1,6 @@
+include setup.py
+include LICENSE
+include MANIFEST.in
+include README.md
+include requirements.txt
+recursive-include cross_modality_data_augmentation *.py *.npy
