@@ -1,6 +1,6 @@
-from ..transformations import CrossModalityTransformations
-from ..utils.image_utils import load_npy_image, save_npy_image, display_image_gray
-from ..enums import Input_Modality, Output_Modality
+from cross_modality_data_augmentation.transformations import CrossModalityTransformations
+from cross_modality_data_augmentation.utils.image_utils import load_npy_image, save_npy_image, display_image_gray
+from cross_modality_data_augmentation.enums import Input_Modality, Output_Modality
 
 
 
