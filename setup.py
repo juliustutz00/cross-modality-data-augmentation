@@ -12,6 +12,7 @@ setup(
     author_email="julius.stutz@stud.uni-bamberg.de",
     url="https://github.com/juliustutz00/cross_modality_data_augmentation",
     packages=find_packages(),
+    include_package_data=True,
     install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3",
