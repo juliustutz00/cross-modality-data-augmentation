@@ -1,8 +1,8 @@
 from torchvision.transforms import v2
-from ..transformations import CrossModalityTransformations
-from ..utils import load_npy_image, display_image_gray, save_npy_image
-from ..utils import tensor_to_numpy, numpy_to_tensor, NumpyToTensorTransform, TensorToNumpyTransform
-from ..enums import Input_Modality, Output_Modality
+from cross_modality_data_augmentation.transformations import CrossModalityTransformations
+from cross_modality_data_augmentation.utils import load_npy_image, display_image_gray, save_npy_image
+from cross_modality_data_augmentation.utils import tensor_to_numpy, numpy_to_tensor, NumpyToTensorTransform, TensorToNumpyTransform
+from cross_modality_data_augmentation.enums import Input_Modality, Output_Modality
 
 # Transformation Instanz erstellen
 cross_modality_transformer = CrossModalityTransformations(
