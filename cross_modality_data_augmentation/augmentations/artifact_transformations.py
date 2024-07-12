@@ -45,10 +45,6 @@ def transform_artifact(image_to_be_transformed: np.ndarray, ratio: float, input_
     '''
     if ratio < 0 or ratio > 1:
         raise ValueError("Ratio must be between 0 and 1.")
-    
-    # Artifacts are only added to 5% of the images
-    if random.random() < 0.95:
-        return image_to_be_transformed
 
     match input_modality:
         case Input_Modality.any:
