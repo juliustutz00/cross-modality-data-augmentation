@@ -19,6 +19,38 @@ class CrossModalityTransformations:
                  spatial_resolution_probability=1.0, spatial_resolution_ratio_range=(0, 1), 
                  noise_probability=1.0, noise_ratio_range=(0, 1), 
                  custom_reference_image_name=None):
+        '''
+        Initializes an instance of the transformation class with specified parameters.
+
+        Parameters
+        ----------
+        input_modality : Input_Modality
+            The modality of the input image. Determines specific transformations or adjustments.
+        output_modality : Output_Modality
+            The desired modality of the transformed image. Allows for custom reference images.
+        atLeast : int, optional
+            Minimum number of transformations to apply randomly (default is 0).
+        atMost : int, optional
+            Maximum number of transformations to apply randomly (default is 4).
+        color_probability : float, optional
+            Probability of applying color transformation (default is 1.0).
+        color_ratio_range : tuple, optional
+            Range of ratios for adjusting color transformation (default is (0, 1)).
+        artifact_probability : float, optional
+            Probability of applying artifact transformation (default is 1.0).
+        artifact_ratio_range : tuple, optional
+            Range of ratios for adjusting artifact transformation (default is (0, 1)).
+        spatial_resolution_probability : float, optional
+            Probability of applying spatial resolution transformation (default is 1.0).
+        spatial_resolution_ratio_range : tuple, optional
+            Range of ratios for adjusting spatial resolution transformation (default is (0, 1)).
+        noise_probability : float, optional
+            Probability of applying noise transformation (default is 1.0).
+        noise_ratio_range : tuple, optional
+            Range of ratios for adjusting noise transformation (default is (0, 1)).
+        custom_reference_image_name : str, optional
+            Name of the custom reference image to use for transformations (default is None).
+        '''
         self.input_modality = input_modality
         self.output_modality = output_modality
         self.atLeast = atLeast
