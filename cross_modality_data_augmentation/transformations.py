@@ -72,13 +72,14 @@ class CrossModalityTransformations:
         if (not (output_modality is Output_Modality.custom)) or custom_reference_image_name is None:
             shape_number_last = image.shape[-1]
             shape_number_second_to_last = image.shape[-2]
-            files = os.listdir("reference_images/built_in")
+            current_dir = os.path.dirname(__file__)
+            files = os.listdir(os.path.join(current_dir, "reference_images/built_in"))
             matching_files = [f for f in files if f.endswith(f"{shape_number_second_to_last}x{shape_number_last}.npy") and f.startswith(output_modality.name)]
             if len(matching_files) != 1:
                 raise ValueError(f"Expected exactly one file starting with '{output_modality.name} and ending with {shape_number_second_to_last}x{shape_number_last}.npy', found {len(matching_files)}")
-            return np.load(os.path.join("reference_images/built_in", matching_files[0]))
+            return np.load(os.path.join(current_dir, "reference_images/built_in", matching_files[0]))
         else:
-            return np.load(os.path.join("reference_images/custom", custom_reference_image_name))
+            return np.load(os.path.join(current_dir, "reference_images/custom", custom_reference_image_name))
 
     def transform(self, image: np.ndarray):
         color_ratio = self.random_ratio(self.color_ratio_range)
