@@ -743,16 +743,17 @@ def add_attenuation_artifact_PET(image, ratio):
     else:  # Color image
         height, width, channels = output_image.shape
     
-    # Randomly select a position for the white spot that is not black
-    while True:
-        center_x = random.randint(0, width - 1)
-        center_y = random.randint(0, height - 1)
-        if len(image.shape) == 2:  # Grayscale image
-            if output_image[center_y, center_x] != 0:  # Check if the pixel is not black
-                break
-        else:  # Color image
-            if np.any(output_image[center_y, center_x] != 0):  # Check if the pixel is not black
-                break
+    # Find all non-black pixel coordinates
+    if len(image.shape) == 2:  # Grayscale image
+        non_black_coords = np.argwhere(output_image != 0)
+    else:  # Color image
+        non_black_coords = np.argwhere(np.any(output_image != 0, axis=-1))
+    
+    if len(non_black_coords) == 0:
+        return image
+
+    # Randomly select a position for the white spot from the non-black pixel coordinates
+    center_y, center_x = non_black_coords[random.randint(0, len(non_black_coords) - 1)]
     
     # Determine the radius of the white spot based on the provided ratio
     radius = int(3 * ratio)
