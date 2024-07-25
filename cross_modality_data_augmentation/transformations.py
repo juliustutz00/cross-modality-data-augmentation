@@ -86,7 +86,7 @@ class CrossModalityTransformations:
             return np.load(os.path.join(current_dir, "reference_images/custom", custom_reference_image_name))
 
     def transform(self, image: np.ndarray):
-        if random.uniform(0, 1) > seld.transformation_probability:
+        if random.uniform(0, 1) > self.transformation_probability:
             return image
         
         color_ratio = self.random_ratio(self.color_ratio_range)
