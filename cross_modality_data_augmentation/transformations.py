@@ -12,6 +12,7 @@ from .augmentations import (
 
 class CrossModalityTransformations:
     def __init__(self, input_modality: Input_Modality, output_modality: Output_Modality, 
+                 transformation_probability=1,
                  atLeast=0, 
                  atMost=4,
                  color_probability=1.0, color_ratio_range=(0, 1), 
@@ -28,6 +29,8 @@ class CrossModalityTransformations:
             The modality of the input image. Determines specific transformations or adjustments.
         output_modality : Output_Modality
             The desired modality of the transformed image. Allows for custom reference images.
+        transformation_probability : float, optional
+            Probability of image to be transformed by this transformation (example: if 0.1, every 10th image is transformed) (default is 1.0).
         atLeast : int, optional
             Minimum number of transformations to apply randomly (default is 0).
         atMost : int, optional
@@ -53,6 +56,7 @@ class CrossModalityTransformations:
         '''
         self.input_modality = input_modality
         self.output_modality = output_modality
+        self.transformation_probability = transformation_probability
         self.atLeast = atLeast
         self.atMost = atMost
         self.color_probability = color_probability
@@ -82,6 +86,9 @@ class CrossModalityTransformations:
             return np.load(os.path.join(current_dir, "reference_images/custom", custom_reference_image_name))
 
     def transform(self, image: np.ndarray):
+        if random.uniform(0, 1) > seld.transformation_probability:
+            return image
+        
         color_ratio = self.random_ratio(self.color_ratio_range)
         artifact_ratio = self.random_ratio(self.artifact_ratio_range)
         spatial_resolution_ratio = self.random_ratio(self.spatial_resolution_ratio_range)
