@@ -11,6 +11,7 @@ image_to_be_transformed = load_npy_image("folder/folder/filename.npy")
 cross_modality_transformer = CrossModalityTransformations(
     input_modality=Input_Modality.CT, 
     output_modality=Output_Modality.MRI, 
+    transformation_probability=0.2,     # probability that an image is transformed at all
     atLeast = 2,    # minimal number of augmentations
     atMost = 4,    # maximal number of augmentations
     color_probability = 1.0,     # probability for the color augmentation to be chosen from the sampled number of overall augmentations
