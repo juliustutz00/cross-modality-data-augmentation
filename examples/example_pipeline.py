@@ -7,7 +7,8 @@ from cross_modality_data_augmentation.enums import Input_Modality, Output_Modali
 # Transformation Instanz erstellen
 cross_modality_transformer = CrossModalityTransformations(
     input_modality=Input_Modality.MRI,
-    output_modality=Output_Modality.PET
+    output_modality=Output_Modality.PET, 
+    transformation_probability=0.2
 )
 
 # Compose Transforms
