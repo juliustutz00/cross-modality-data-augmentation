@@ -179,7 +179,9 @@ def add_poisson_noise(image_to_be_transformed : np.ndarray, ratio : float):
     image = image_to_be_transformed.astype(np.float32) 
 
     # Scale the image to the range [0, 1] 
-    image_min, image_max = image.min(), image.max() 
+    image_min, image_max = image.min(), image.max()
+    if image.max() == 0:
+        return image
     scaled_image = (image - image_min) / (image_max - image_min) 
 
     # Generate Poisson noise 
