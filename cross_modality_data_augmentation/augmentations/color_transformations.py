@@ -304,7 +304,10 @@ def refine_image_details_PET_to_CT(image_to_be_transformed: np.ndarray, ratio: f
     inverted_distance = np.max(distance) - distance
 
     # Define thresholds and create masks for outer regions
-    threshold = np.percentile(inverted_distance[skull_mask_filled == 1], 85)
+    try:
+        threshold = np.percentile(inverted_distance[skull_mask_filled == 1], 85)
+    except IndexError:
+        threshold = 5.0
     outer_15_percent_mask = (inverted_distance >= threshold) & (skull_mask_filled == 1)
     darkest_spots_mask = (image_to_be_transformed < 50) & (skull_mask_filled == 1)
 
