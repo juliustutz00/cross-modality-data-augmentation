@@ -7,7 +7,6 @@ from ..enums import Input_Modality, Output_Modality
 def transform_artifact(image_to_be_transformed: np.ndarray, ratio: float, input_modality: Input_Modality, output_modality: Output_Modality): 
     '''
     Adds a modality characteristic artifact to a given image.
-    Is only executed about every 10th image as artifacts are rather rare in reality.
 
     Knowledge about modality characteristic noise is taken from:
     - Abouzied, Mohei M., Elpida S. Crawford, and Hani Abdel Nabi. "18F-FDG imaging: pitfalls and artifacts." Journal of nuclear medicine technology 33.3 (2005): 145-155. 
