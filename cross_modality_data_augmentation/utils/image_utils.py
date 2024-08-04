@@ -110,3 +110,23 @@ def browse_images_color(images, filenames):
 
     fig.canvas.mpl_connect('key_press_event', on_key)
     plt.show()
+
+def load_custom_dataset(folder_path, modality):
+    images = np.load(folder_path)['train_images']
+    images = images[:1000]
+    dataset = []
+    for image in images:
+        image = resize(image, (256, 256), anti_aliasing=True)
+        image_min = np.min(image)
+        image_max = np.max(image)
+        if image_max != image_min:
+            normalized_image = (image - image_min) / (image_max - image_min) * 255
+        else:
+            normalized_image = np.zeros_like(image)
+        normalized_image = normalized_image.astype(np.uint8)
+        dataset.append(normalized_image)
+    dataset = np.array(dataset)
+    mean_color_values = np.round(np.mean(dataset, axis=0)).astype(np.uint8)
+    current_dir = os.path.dirname(__file__)
+    output_path = current_dir + "/reference_images/custom/" + modality + "_256x256"
+    np.save(output_path, mean_color_values)
