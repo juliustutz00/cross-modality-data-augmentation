@@ -67,5 +67,7 @@ custom_reference_image_name: str
 ```
 
 The input images should be pre-processed, meaning: .npy format, same shape, removed noise, similar size dimensions.
+
 If a non-implemented modality is augmented, choose input_modality=Input_Modality.any. 
+
 If a non-implemented modality is chosen as a destination, choose output_modality=Output_Modality.custom and custom_reference_image_name="your_reference_image.png" (more information is given in __Custom Modalities__).
