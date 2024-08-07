@@ -1,7 +1,7 @@
 
-# Medical Data Augmentation
+# Cross-Modality Data Augmentation
 
-This robust, cross-modality-wise Data Augmentation technique is capable of synthesizing new medical images from a given to a desired domain. 
+This robust, cross-modality data augmentation technique is capable of synthesizing new medical images from a given to a desired domain. 
 
 The thereby newly created training samples can help to improve the generalization performance of deep learning models when training with multiple modalities. 
 
@@ -14,23 +14,54 @@ The Data Augmentation is fine-tuned for the following modalities:
 - PET
 - MRI
 - CT
-It is, however, possible to add custom modalities, although their transformation will be rather coarse. More information is given in __Custom Modalities__.
-## GUI and permitted values
 
-To improve the usability of this data augmentation it is possible to augment datasets via a GUI. The augmentation only works with certain prerequisites which, as well as the explanation of the GUI can be seen in the following:
-- "Dataset input": Choose the folder with your dataset inside. Permitted values: valid folder name with dataset; dataset has to be prepared, meaning dicom (.dcm) format, same quadratic shape, removed noise, similar size ratio
-- "From": Choose the modality of your put in dataset. If none of the dropdown menu's modalities is yours, choose "any". Permitted values: any value from the dropdown menu
-- "To": Choose the modality that you want to transform your put in dataset to. If none of the dropdown menu's modalities is the one you aim for you can upload a dataset of your aimed for modality. For this see __Custom Modalities__. Permitted values: any value from the dropdown menu
-- "Custom": Choose your custom modality that you implemeted yourself as described in __Custom Modalities__. This row is only accessible if "custom" is chosen in row "_To_". Permitted values: any file from the dropdown menu; file must have the same resolution as the put in dataset in "_Dataset input_"
-- "Approximate augmentations per image": Choose the approximate augmentations per image in the dataset. Permitted values: any integer >0; higher values will be computationally expensive
-- "Add custom modality (optional)": Implement your own custom modality as described in __Custom Modalities__
-- "Augment": This button will start the augmentation with the given values. The status label informs you about the current status
+It is, however, possible to add custom modalities, although their transformation will be rather coarse. More information is given in __Custom Modalities__.
 ## Custom Modalities
 
-It is possible to implement custom modalities yourself, altough the corresponding transformation will be rather rough because of the missing fine-tuning.
+It is possible to implement custom modalities yourself, altough the corresponding transformation will be rather coarse because of the missing fine-tuning.
 
 To add a new modality proceed as follows:
-- Prepare dataset: The transformation needs a dataset of the desired domain to work (e.g. if you want to transform MRI to US, you need a sufficiently large US dataset). This dataset should be prepared, meaning: dicom (.dcm) format, same quadratic shape, removed noise, similar size ratio.
-- Open GUI: Open the GUI as usual.
-- Upload dataset: Concentrate on the row "Add custom modality (optional)". First, choose a suitable resoluion. This resolution must _not_ be the same as the dataset but it should be the same resolution as the dataset you want to augment (e.g. if you want to transform MRI to US, you need to choose the resolution of the MRI dataset). Click on "Choose Folder" and select the folder of the dataset of the custom modality.
-- Use new modality: You can now use your custom modality, _without_ having to restart the GUI. Therefore select "custom" in row "To" which should spawn a new row "Custom". In row "Custom" please select your custom modality from the dropdown menu. It will have the same name as the folder you inserted at step "_Upload dataset_" followed by an underscore, the chosen resolution and .npy (e.g. if your dataset is called "US_images" and you chose the resolution 256x256, the custom modality file will be called "US_images_256x256.npy").
+- Pre-process dataset: The augmentation needs a dataset of the destination modality to work (e.g. if you want to transform MRI to US, you need a sufficiently large (>= 200 images) US dataset). This dataset should be pre-processed, meaning: .npy format, same quadratic shape, removed noise, similar size dimensions.
+- Import function: Import the cross_modality_data_augmentation.utils.image_utils.load_custom_dataset function.
+- Create custom reference image: Use the imported load_custom_dataset function where folder_path: str should be the path of the folder where your dataset is located and modality:str should be the name of the dataset's modality.
+- Use new modality: You can now use your custom modality by creating a new transformer (more information is given in __Usage__) with output_modality=Output_Modality.custom and custom_reference_image_name=(modality + "_256x256.npy").
+## Usage
+
+cross_modality_transformer = CrossModalityTransformations(
+    input_modality=Input_Modality.CT,   # set the initial modality of the image you want to augment
+    output_modality=Output_Modality.MRI,   # set the destination modality of the image you want to augment
+    transformation_probability=0.2,     # probability that an image is augmented at all
+    atLeast = 2,    # minimal number of augmentations
+    atMost = 4,    # maximal number of augmentations
+    color_probability = 1.0,     # probability for the color augmentation to be chosen from the sampled number of overall augmentations
+    artifact_probability = 0.05, 
+    spatial_resolution_probability = 0.8, 
+    noise_probability = 0.2,
+    color_ratio_range=(0, 1),     # strength of the color augmentation (if it is chosen)
+    artifact_ratio_range=(0, 1), 
+    spatial_resolution_ratio_range=(0, 1), 
+    noise_ratio_range=(0, 1), 
+    custom_reference_image_name=None   # name of the custom image if custom is chosen as output_modality
+)
+
+The usage is kept similar to existing data augmentations. One can set a probability for the whole data augmentation to happen, and probabilities + ratios for every single augmentation. The cross-modality data augmentation can also easily be included in pipelines of other data augmentations. For further information on the usage please have a look at the folder __examples__.
+## Permitted values
+
+input_modality: cross_modality_data_augmentation.enums.Input_Modality
+output_modality: cross_modality_data_augmentation.enums.Output_Modality
+transformation_probability: [0, 1]
+atLeast = [0, 4]
+atMost = [atLeast, 4]
+color_probability = [0, 1]
+artifact_probability = [0, 1]
+spatial_resolution_probability = [0, 1]
+noise_probability = [0, 1]
+color_ratio_range= [0, 1]
+artifact_ratio_range= [0, 1]
+spatial_resolution_ratio_range= [0, 1]
+noise_ratio_range= [0, 1]
+custom_reference_image_name: str
+
+The input images should be pre-processed, meaning: .npy format, same shape, removed noise, similar size dimensions.
+If a non-implemented modality is augmented, choose input_modality=Input_Modality.any. 
+If a non-implemented modality is chosen as a destination, choose output_modality=Output_Modality.custom and custom_reference_image_name="your_reference_image.png" (more information is given in __Custom Modalities__).
