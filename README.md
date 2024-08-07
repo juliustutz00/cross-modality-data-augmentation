@@ -29,8 +29,11 @@ To add a new modality proceed as follows:
 
 cross_modality_transformer = CrossModalityTransformations(
     input_modality=Input_Modality.CT,   # set the initial modality of the image you want to augment
+    
     output_modality=Output_Modality.MRI,   # set the destination modality of the image you want to augment
+    
     transformation_probability=0.2,     # probability that an image is augmented at all
+    
     atLeast = 2,    # minimal number of augmentations
     atMost = 4,    # maximal number of augmentations
     color_probability = 1.0,     # probability for the color augmentation to be chosen from the sampled number of overall augmentations
