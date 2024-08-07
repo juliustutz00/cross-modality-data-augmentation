@@ -27,8 +27,8 @@ To add a new modality proceed as follows:
 - Use new modality: You can now use your custom modality by creating a new transformer (more information is given in __Usage__) with output_modality=Output_Modality.custom and custom_reference_image_name=(modality + "_256x256.npy").
 ## Usage
 
+```
 cross_modality_transformer = CrossModalityTransformations(
-
     input_modality=Input_Modality.CT,   # set the initial modality of the image you want to augment
     output_modality=Output_Modality.MRI,   # set the destination modality of the image you want to augment
     transformation_probability=0.2,     # probability that an image is augmented at all
@@ -44,10 +44,12 @@ cross_modality_transformer = CrossModalityTransformations(
     noise_ratio_range=(0, 1), 
     custom_reference_image_name=None   # name of the custom image if custom is chosen as output_modality
 )
+```
 
 The usage is kept similar to existing data augmentations. One can set a probability for the whole data augmentation to happen, and probabilities + ratios for every single augmentation. The cross-modality data augmentation can also easily be included in pipelines of other data augmentations. For further information on the usage please have a look at the folder __examples__.
 ## Permitted values
 
+```
 input_modality: cross_modality_data_augmentation.enums.Input_Modality
 output_modality: cross_modality_data_augmentation.enums.Output_Modality
 transformation_probability: [0, 1]
@@ -62,6 +64,7 @@ artifact_ratio_range= [0, 1]
 spatial_resolution_ratio_range= [0, 1]
 noise_ratio_range= [0, 1]
 custom_reference_image_name: str
+```
 
 The input images should be pre-processed, meaning: .npy format, same shape, removed noise, similar size dimensions.
 If a non-implemented modality is augmented, choose input_modality=Input_Modality.any. 
