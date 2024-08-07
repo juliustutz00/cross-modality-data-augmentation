@@ -5,9 +5,6 @@ This robust, cross-modality data augmentation technique is capable of synthesizi
 
 The thereby newly created training samples can help to improve the generalization performance of deep learning models when training with multiple modalities. 
 
-
-
-
 ## Implemented Modalities
 
 The Data Augmentation is fine-tuned for the following modalities:
@@ -46,7 +43,9 @@ cross_modality_transformer = CrossModalityTransformations(
 )
 ```
 
-The usage is kept similar to existing data augmentations. One can set a probability for the whole data augmentation to happen, and probabilities + ratios for every single augmentation. The cross-modality data augmentation can also easily be included in pipelines of other data augmentations. For further information on the usage please have a look at the folder __examples__.
+The usage is kept similar to existing data augmentations. One can set a probability for the whole data augmentation to happen, and probabilities + ratios for every single augmentation. 
+
+The cross-modality data augmentation can also easily be included in pipelines of other data augmentations. For further information on the usage please have a look at the folder __examples__.
 ## Permitted values
 
 ```
