@@ -182,8 +182,6 @@ modalities = ['CT', 'PET', 'MRI']
 with open("VAE.txt", "w+", encoding="utf-8") as result_file:
     for input_modality in modalities:
         for output_modality in modalities:
-            print(input_modality)
-            print(output_modality)
             if input_modality == output_modality:
                 continue
             
