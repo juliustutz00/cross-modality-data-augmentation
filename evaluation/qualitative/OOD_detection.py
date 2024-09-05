@@ -448,10 +448,9 @@ def run_experiment(runs, model, anatomy, augmentation, dataset_size=1.0):
     AUPR_OUT_list = []
     FPR95TPR_list = []
 
-    data, labels = load_data("/mnt/data/jstutz/data/OOD_samples_new/train_set_MRI")
-    # data, labels = load_data("/mnt/data/jstutz/data/OOD_samples_new/test_set_MRI_and_PET/MRI")
-    test_data_in, test_labels_in = load_data("/mnt/data/jstutz/data/OOD_samples_new/test_set_MRI_and_PET/MRI")
-    test_data_out, test_labels_out = load_data("/mnt/data/jstutz/data/OOD_samples_new/test_set_MRI_and_PET/PET")
+    data, labels = load_data("/path/to/your/train/images")
+    test_data_in, test_labels_in = load_data("/path/to/your/intest/images")
+    test_data_out, test_labels_out = load_data("/path/to/your/outtest/images")
 
     test_labels_in = torch.zeros(len(test_data_in), dtype=torch.long)  # IN samples labeled as 0, cast to long
     test_labels_out = torch.ones(len(test_data_out), dtype=torch.long)  # OOD samples labeled as 1, cast to long
