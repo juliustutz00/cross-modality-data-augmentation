@@ -73,10 +73,10 @@ class CrossModalityTransformations:
         return random.uniform(ratio_range[0], ratio_range[1])
 
     def determine_reference_image(self, image: np.ndarray, output_modality: Output_Modality, custom_reference_image_name):
+        current_dir = os.path.dirname(__file__)
         if (not (output_modality is Output_Modality.custom)) or custom_reference_image_name is None:
             shape_number_last = image.shape[-1]
             shape_number_second_to_last = image.shape[-2]
-            current_dir = os.path.dirname(__file__)
             files = os.listdir(os.path.join(current_dir, "reference_images/built_in"))
             matching_files = [f for f in files if f.endswith(f"{shape_number_second_to_last}x{shape_number_last}.npy") and f.startswith(output_modality.name)]
             if len(matching_files) != 1:
