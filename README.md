@@ -3,7 +3,7 @@
 
 This robust, cross-modality data augmentation technique is capable of synthesizing new medical images from an initial to a target domain. 
 
-The thereby newly created training samples can better represent the distribution of the target modality while also helping to improve the generalization performance of deep learning algorithms when training with multiple modalities. 
+The thereby newly created training samples can better represent the distribution of the target modality while potentially also helping to improve the generalization performance of deep learning algorithms in multimodal training. 
 
 ## Implemented Modalities
 
