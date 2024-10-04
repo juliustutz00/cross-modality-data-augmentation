@@ -35,6 +35,7 @@ def calculate_mean_std(data):
     std = (stdCT + stdMRI + stdPET) / 3
     return mean, std
 
+# Function to load data
 def load_data(root_dir, anatomy):
     if (anatomy == "brain"):
         class_1 = "healthy"

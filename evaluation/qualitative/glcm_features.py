@@ -2,6 +2,7 @@ from cross_modality_data_augmentation.transformations import CrossModalityTransf
 from cross_modality_data_augmentation.enums import Input_Modality, Output_Modality
 from skimage.feature import graycomatrix, graycoprops
 from scipy.spatial.distance import euclidean
+from sklearn.preprocessing import StandardScaler
 import os
 import numpy as np
 from torchvision.transforms import v2
@@ -54,7 +55,6 @@ def calculate_glcm_features(image):
         'contrast': np.mean(graycoprops(glcm, 'contrast')),
         'dissimilarity': np.mean(graycoprops(glcm, 'dissimilarity')),
         'homogeneity': np.mean(graycoprops(glcm, 'homogeneity')),
-        'ASM': np.mean(graycoprops(glcm, 'ASM')),
         'energy': np.mean(graycoprops(glcm, 'energy')),
         'correlation': np.mean(graycoprops(glcm, 'correlation'))
     }
@@ -70,9 +70,9 @@ def run_experiment(input_modality, output_modality):
     ratios = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
     
     # Load the non-augmented images
-    input_modality_images_path = "path/to/your/data" + input_modality.name + "/original"
-    output_modality_images_path = "path/to/your/data" + output_modality.name + "/original"
-    augmented_images_path = "path/to/your/data" + input_modality.name + "/to_be_augmented"
+    input_modality_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + input_modality.name + "/original"
+    output_modality_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + output_modality.name + "/original"
+    augmented_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + input_modality.name + "/to_be_augmented"
     real_images_modality_1 = load_images(input_modality_images_path)
     real_images_modality_2 = load_images(output_modality_images_path)
 
@@ -97,8 +97,20 @@ def run_experiment(input_modality, output_modality):
         # Calculare distance between datasets
         # distance_modality_1 should get bigger the heavier the images are augmented
         # distance_modality_2 should get smaller the heavier the images are augmented
-        distance_modality_1 = euclidean(vector_modality_1, vector_augmented_1_to_2)
-        distance_modality_2 = euclidean(vector_modality_2, vector_augmented_1_to_2)
+        #distance_modality_1 = euclidean(vector_modality_1, vector_augmented_1_to_2)
+        #distance_modality_2 = euclidean(vector_modality_2, vector_augmented_1_to_2)
+        scaler = StandardScaler()
+        # Combine vectors to fit scaler
+        combined_vectors = np.vstack([vector_modality_1, vector_augmented_1_to_2, vector_modality_2])
+        # Fit and transform the vectors
+        scaled_vectors = scaler.fit_transform(combined_vectors)
+        # Extract scaled vectors
+        scaled_vector_modality_1 = scaled_vectors[0]
+        scaled_vector_augmented_1_to_2 = scaled_vectors[1]
+        scaled_vector_modality_2 = scaled_vectors[2]
+        # Calculate distances
+        distance_modality_1 = euclidean(scaled_vector_modality_1, scaled_vector_augmented_1_to_2)
+        distance_modality_2 = euclidean(scaled_vector_modality_2, scaled_vector_augmented_1_to_2)
 
         distances_modality_1.append(distance_modality_1)
         distances_modality_2.append(distance_modality_2)

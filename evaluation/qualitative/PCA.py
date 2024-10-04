@@ -53,9 +53,9 @@ def run_experiment(input_modality, output_modality):
     ratios = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
     
     # Load the non-augmented images
-    input_modality_images_path = "path/to/your/data" + input_modality.name + "/original"
-    output_modality_images_path = "path/to/your/data" + output_modality.name + "/original"
-    augmented_images_path = "path/to/your/data" + input_modality.name + "/to_be_augmented"
+    input_modality_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + input_modality.name + "/original"
+    output_modality_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + output_modality.name + "/original"
+    augmented_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + input_modality.name + "/to_be_augmented"
     real_images_modality_1 = load_images(input_modality_images_path)
     real_images_modality_2 = load_images(output_modality_images_path)
 

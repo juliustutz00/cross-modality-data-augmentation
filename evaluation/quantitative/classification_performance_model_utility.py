@@ -1,14 +1,16 @@
 import numpy as np
 import torch
-from sklearn.metrics import balanced_accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from sklearn.metrics import balanced_accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, matthews_corrcoef
 from sklearn.metrics import roc_curve, auc
 
 
 
+# Training and validation functions
 def train_resnet(model, loader, criterion, optimizer, device):
     model.train()
     running_loss = 0.0
     for inputs, labels in loader:
+        #print(inputs.shape)
         inputs, labels = inputs.to(device), labels.to(device)
         optimizer.zero_grad()
         outputs = model(inputs)

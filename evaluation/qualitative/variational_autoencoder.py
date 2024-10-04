@@ -142,24 +142,46 @@ def test(loader, model, device):
     model.eval()
     test_loss = 0
     maes, rmses = [], []
+    loss_list = []  # List to store individual loss values
     with torch.no_grad():
         for i, (data, labels) in enumerate(loader):
             data = data.to(device)
             recon, mu, logvar = model(data)
             recon = recon.view_as(data)
-            test_loss += loss_function(recon, data, mu, logvar).item()
+            
+            # Calculate loss for each batch
+            batch_loss = loss_function(recon, data, mu, logvar).item()
+            test_loss += batch_loss
+            loss_list.append(batch_loss)  # Append the loss to the list
+            
+            # Calculate metrics for each batch
+            mae = calculate_mae(recon, data)
+            rmse = calculate_rmse(recon, data)
+            maes.append(mae)
+            rmses.append(rmse)
 
-            # Calculate metrics
-            maes.append(calculate_mae(recon, data))
-            rmses.append(calculate_rmse(recon, data))
+    # Calculate the mean and standard deviation of Test Loss
+    mean_loss = np.mean(loss_list)
+    std_loss = np.std(loss_list)
 
-    test_loss /= len(loader.dataset)
-    result_file.write("Test set loss: %f \r\n" % (test_loss))
-    result_file.write("MAE: %f, RMSE: %f \r\n" % (np.mean(maes), np.mean(rmses)))
+    # Calculate the mean and standard deviation for MAE and RMSE
+    mean_mae = np.mean(maes)
+    std_mae = np.std(maes)
+    
+    mean_rmse = np.mean(rmses)
+    std_rmse = np.std(rmses)
+    
+    # Write results including standard deviations
+    result_file.write("Test set loss: %f (±%f)\r\n" % (mean_loss, std_loss))
+    result_file.write("MAE: %f (±%f)\r\n" % (mean_mae, std_mae))
+    result_file.write("RMSE: %f (±%f)\r\n" % (mean_rmse, std_rmse))
+
+    # Return the values for further statistical tests
+    return mean_loss, std_loss, mean_mae, std_mae, mean_rmse, std_rmse
 
 def load_data(root_dir):
-    class_1 = "healthy"
-    class_2 = "not_healthy"
+    class_1 = "stage_II"
+    class_2 = "stage_III"
     
     data = []
     labels = []
@@ -182,12 +204,14 @@ modalities = ['CT', 'PET', 'MRI']
 with open("VAE.txt", "w+", encoding="utf-8") as result_file:
     for input_modality in modalities:
         for output_modality in modalities:
+            print(input_modality)
+            print(output_modality)
             if input_modality == output_modality:
                 continue
             
             result_file.write("%s to %s: \r\n" % (input_modality, output_modality))
-            data_input, label_input = load_data("path/to/your/data" + input_modality)
-            data_output, label_output = load_data("path/to/your/data" + output_modality)
+            data_input, label_input = load_data("/mnt/data/jstutz/data/bladder_np/" + input_modality)
+            data_output, label_output = load_data("/mnt/data/jstutz/data/bladder_np/" + output_modality)
 
             dataset_input = MedicalImageDataset(data_input, label_input, False)
             dataset_input_augmented = MedicalImageDataset(data_input, label_input, True)
@@ -211,4 +235,4 @@ with open("VAE.txt", "w+", encoding="utf-8") as result_file:
                 train(epoch, loader_input_augmented, vae_2, optimizer, device)
             result_file.write("Trained with augmented dataset: \r\n")
             test(loader_output, vae_2, device)
-        break
+        

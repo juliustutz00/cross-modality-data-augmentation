@@ -98,9 +98,9 @@ def run_experiment(input_modality, output_modality):
         model.fc = torch.nn.Identity()
 
         # Load the images
-        input_modality_images_path = "path/to/your/data" + input_modality.name + "/original"
-        output_modality_images_path = "path/to/your/data" + output_modality.name + "/original"
-        augmented_images_path = "path/to/your/data" + input_modality.name + "/to_be_augmented"
+        input_modality_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + input_modality.name + "/original"
+        output_modality_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + output_modality.name + "/original"
+        augmented_images_path = "/mnt/data/jstutz/data/bladder_np_divided/" + input_modality.name + "/to_be_augmented"
         real_images_modality_1 = load_images(input_modality_images_path)
         real_images_modality_2 = load_images(output_modality_images_path)
         augmented_images_1_to_2 = load_augmented_images(augmented_images_path, input_modality, output_modality, ratio)
