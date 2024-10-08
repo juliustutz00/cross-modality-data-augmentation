@@ -9,7 +9,7 @@ The thereby newly created training samples can better represent the distribution
 
 | PET to MRI | PET to CT | MRI to PET | MRI to CT | CT to PET | CT to MRI |
 | --- | --- | --- | --- | --- | --- |
-| <img src="https://github.com/user-attachments/assets/31db43f8-5b81-4216-b679-e80d29f24387" width="150"> | <img src="https://github.com/user-attachments/assets/f923605b-b70c-4210-bfd6-6870aaeccd38" width="150"> | <img src="https://github.com/user-attachments/assets/1cd47650-d1aa-4878-8475-6ef10f467e32" width="150"> | <img src="https://github.com/user-attachments/assets/eac7e343-4412-4ee3-b4ce-9b8f095b7492" width="150"> | <img src="https://github.com/user-attachments/assets/51743304-d281-4974-b77b-98fb911dcbd4" width="150"> | <img src="https://github.com/user-attachments/assets/dc5bf480-d69f-48d9-beee-bcbb11f4b4f2" width="150"> |
+| <img src="https://github.com/user-attachments/assets/31db43f8-5b81-4216-b679-e80d29f24387" width="150"> | <img src="https://github.com/user-attachments/assets/f923605b-b70c-4210-bfd6-6870aaeccd38" width="150"> | <img src="https://github.com/user-attachments/assets/1cd47650-d1aa-4878-8475-6ef10f467e32" width="150"> | <img src="https://github.com/user-attachments/assets/eac7e343-4412-4ee3-b4ce-9b8f095b7492" width="150"> | <img src="https://github.com/user-attachments/assets/dc5bf480-d69f-48d9-beee-bcbb11f4b4f2" width="150"> | <img src="https://github.com/user-attachments/assets/51743304-d281-4974-b77b-98fb911dcbd4" width="150"> |
 ## Implemented Modalities
 
 The Data Augmentation is fine-tuned for the following modalities:
