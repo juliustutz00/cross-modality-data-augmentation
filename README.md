@@ -5,6 +5,8 @@ This robust, cross-modality data augmentation technique is capable of synthesizi
 
 The thereby newly created training samples can better represent the distribution of the target modality while potentially also helping to improve the generalization performance of deep learning algorithms in multimodal training. 
 
+The corresponding thesis can be read [here](https://www.uni-bamberg.de/fileadmin/xai/Bachelorarbeit_Julius_Stutz.pdf).
+
 ## Sample augmented images
 
 | PET to MRI | PET to CT | MRI to PET | MRI to CT | CT to PET | CT to MRI |
